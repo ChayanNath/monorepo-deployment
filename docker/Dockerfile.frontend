@@ -12,7 +12,7 @@ COPY ./apps/web ./apps/web
 
 RUN bun install
 RUN bun run db:generate
-RUN DATABASE_URL=${DATABASE_URL} bunx turbo build --filter=web...
+RUN DATABASE_URL=${DB_URL} bunx turbo build --filter=web...
 
 EXPOSE 3000
 
