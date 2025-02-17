@@ -3,18 +3,22 @@ FROM oven/bun:1
 WORKDIR /usr/src/app
 
 ARG DATABASE_URL
-COPY ./packages ./packages
-COPY ./bun.lock ./bun.lock
+
+ENV DATABASE_URL=${DATABASE_URL}
 
 COPY ./package.json ./package.json
+COPY ./bun.lock ./bun.lock
 COPY ./turbo.json ./turbo.json
 
+RUN bun install
+
+COPY ./packages ./packages
 COPY ./apps/web ./apps/web
 
-RUN bun install
 RUN bun run db:generate
-RUN DATABASE_URL=${DATABASE_URL} bun run build
+
+RUN bun run build
 
 EXPOSE 3000
 
-CMD ["bun", "run", "start:web"]
+CMD ["bun", "run", "start:frontend"]
