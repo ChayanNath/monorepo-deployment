@@ -16,7 +16,7 @@ COPY ./apps/web ./apps/web
 RUN bun install
 RUN bun run db:generate
 
-RUN bun run build
+RUN bun run build || (echo "Build failed. Showing logs..." && cat /usr/src/app/apps/web/.next/trace && exit 1)
 
 EXPOSE 3000
 
